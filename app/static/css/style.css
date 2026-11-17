@@ -1,0 +1,193 @@
+:root {
+    --bg-dark: #0b0e17;
+    --bg-card: #141927;
+    --bg-glass: rgba(20, 25, 39, 0.85);
+    --accent-red: #e50914;
+    --accent-hover: #ff1e27;
+    --accent-gold: #f5c518;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar-cinema {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.brand-logo {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    color: var(--text-main) !important;
+}
+
+.brand-logo span {
+    color: var(--accent-red);
+}
+
+/* Hero Banner */
+.hero-section {
+    background: linear-gradient(135deg, rgba(229, 9, 20, 0.18) 0%, rgba(11, 14, 23, 0.96) 65%),
+                url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    border-radius: 20px;
+    border: 1px solid var(--border-subtle);
+    padding: 3.5rem 2rem;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+}
+
+.search-box-glass {
+    background: rgba(15, 20, 34, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    padding: 6px;
+}
+
+.search-box-glass input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding-left: 18px;
+}
+
+.search-box-glass input:focus {
+    background: transparent;
+    color: #fff;
+    box-shadow: none;
+}
+
+.search-box-glass input::placeholder {
+    color: var(--text-muted);
+}
+
+.btn-cinema {
+    background-color: var(--accent-red);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 10px 24px;
+    transition: all 0.25s ease;
+}
+
+.btn-cinema:hover {
+    background-color: var(--accent-hover);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.4);
+}
+
+/* Genre Filter Pills */
+.genre-pill {
+    background: var(--bg-card);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.genre-pill:hover, .genre-pill.active {
+    background: var(--accent-red);
+    color: #fff;
+    border-color: var(--accent-red);
+}
+
+/* Movie Cards */
+.movie-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(229, 9, 20, 0.5);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.65);
+}
+
+.poster-wrapper {
+    position: relative;
+    height: 330px;
+    overflow: hidden;
+    background: #1a2035;
+}
+
+.poster-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.movie-card:hover .poster-wrapper img {
+    transform: scale(1.06);
+}
+
+.rating-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(11, 14, 23, 0.88);
+    backdrop-filter: blur(6px);
+    color: var(--accent-gold);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(245, 197, 24, 0.3);
+}
+
+.year-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(229, 9, 20, 0.9);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+}
+
+.movie-plot-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+/* Detail Page */
+.detail-glass-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+footer {
+    margin-top: auto;
+    border-top: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}

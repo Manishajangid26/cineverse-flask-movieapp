@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ movie.title }} ({{ movie.year }}) | CineVerse{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('main.index') }}" class="btn btn-outline-light btn-sm rounded-pill px-3">
+        <i class="bi bi-arrow-left me-1"></i>Back to Movies
+    </a>
+</div>
+
+<div class="detail-glass-card">
+    <div class="row g-4 align-items-start">
+        <!-- Poster Column -->
+        <div class="col-md-4 text-center">
+            <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="img-fluid rounded-4 shadow-lg w-100" style="max-height: 480px; object-fit: cover;">
+        </div>
+
+        <!-- Movie Metadata Column -->
+        <div class="col-md-8">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <span class="badge bg-danger">{{ movie.year }}</span>
+                <span class="badge bg-warning text-dark fw-bold">
+                    <i class="bi bi-star-fill me-1"></i>IMDb {{ movie.imdb_rating }}/10
+                </span>
+                <span class="badge bg-secondary">{{ movie.genre }}</span>
+            </div>
+
+            <h1 class="display-6 fw-bold mb-2">{{ movie.title }}</h1>
+            <p class="text-secondary mb-4">
+                <i class="bi bi-calendar3 me-1"></i>Released: <strong>{{ movie.released }}</strong>
+            </p>
+
+            <h5 class="fw-semibold text-light">Storyline</h5>
+            <p class="text-secondary lh-lg mb-4">{{ movie.plot }}</p>
+
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6">
+                    <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25">
+                        <small class="text-secondary d-block">Director</small>
+                        <strong class="text-light">{{ movie.director }}</strong>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25">
+                        <small class="text-secondary d-block">Top Cast</small>
+                        <strong class="text-light">{{ movie.actors }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-secondary border-opacity-25 my-4">
+
+            <!-- Personal Rating & Review Update Form -->
+            <h5 class="fw-bold mb-3"><i class="bi bi-pencil-square text-danger me-2"></i>Your Personal Rating & Review</h5>
+            <form action="{{ url_for('main.update_review', movie_id=movie.id) }}" method="POST" class="mb-4">
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <label class="form-label text-secondary">Your Rating (1 to 5 Stars)</label>
+                        <select name="user_rating" class="form-select bg-dark text-light border-secondary">
+                            {% for r in range(0, 6) %}
+                                <option value="{{ r }}" {% if movie.user_rating == r %}selected{% endif %}>
+                                    {% if r == 0 %}Not Rated Yet{% else %}{{ r }} Star{% if r > 1 %}s{% endif %}{% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-8">
+                        <label class="form-label text-secondary">Your Review Notes</label>
+                        <input type="text" name="user_review" value="{{ movie.user_review }}" class="form-control bg-dark text-light border-secondary" placeholder="Write what you loved about this movie...">
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
+                    <button type="submit" class="btn btn-cinema">
+                        <i class="bi bi-check-circle me-1"></i>Save Review
+                    </button>
+            </form>
+
+                    <!-- Delete Movie Form -->
+                    <form action="{{ url_for('main.delete_movie', movie_id=movie.id) }}" method="POST" onsubmit="return confirm('Remove this movie from your database?');">
+                        <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
+                            <i class="bi bi-trash me-1"></i>Delete Movie
+                        </button>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

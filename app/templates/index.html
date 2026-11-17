@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Search Section -->
+<section class="hero-section mb-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger px-3 py-2 rounded-pill mb-3">
+                <i class="bi bi-stars me-1"></i>Live OMDb API + SQLAlchemy Database
+            </span>
+            <h1 class="display-5 fw-bold mb-3">Discover & Save Your Favorite Movies</h1>
+            <p class="text-secondary mb-4">
+                Search any Hollywood or Bollywood movie by name — we will fetch its HD poster, release date, cast & IMDb rating and save it directly to your database!
+            </p>
+
+            <!-- Live OMDb Search Form -->
+            <form action="{{ url_for('main.search_live') }}" method="POST" class="search-box-glass d-flex align-items-center mx-auto" style="max-width: 620px;">
+                <input type="text" name="title" class="form-control form-control-lg" placeholder="Type any movie name (e.g., Jawan, Avatar, Batman)..." required>
+                <button type="submit" class="btn btn-cinema text-nowrap">
+                    <i class="bi bi-search me-1"></i>Fetch & Save
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Filter & Local Search Bar -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h3 class="fw-bold mb-0">Saved Movie Vault <span class="badge bg-secondary fs-6 ms-2">{{ total_movies }}</span></h3>
+        <small class="text-secondary">Click on any movie card to view full cast, plot & write your personal review</small>
+    </div>
+
+    <!-- Filter inside Saved DB -->
+    <form action="{{ url_for('main.index') }}" method="GET" class="d-flex gap-2">
+        <input type="text" name="q" value="{{ search_query }}" class="form-control bg-dark text-light border-secondary" placeholder="Filter saved movies...">
+        <button type="submit" class="btn btn-outline-light">Filter</button>
+        {% if search_query or genre_filter %}
+            <a href="{{ url_for('main.index') }}" class="btn btn-outline-danger">Reset</a>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Genre Pills -->
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a href="{{ url_for('main.index') }}" class="genre-pill {% if not genre_filter %}active{% endif %}">All Movies</a>
+    {% for g in ['Action', 'Sci-Fi', 'Drama', 'Comedy', 'Adventure', 'Biography'] %}
+        <a href="{{ url_for('main.index', genre=g) }}" class="genre-pill {% if genre_filter == g %}active{% endif %}">{{ g }}</a>
+    {% endfor %}
+</div>
+
+<!-- Movie Cards Grid -->
+{% if movies %}
+    <div class="row g-4">
+        {% for movie in movies %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="movie-card">
+                    <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="text-decoration-none">
+                        <div class="poster-wrapper">
+                            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+                            <span class="rating-badge">
+                                <i class="bi bi-star-fill me-1"></i>{{ movie.imdb_rating }}
+                            </span>
+                            <span class="year-badge">{{ movie.year }}</span>
+                        </div>
+                    </a>
+
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="text-decoration-none text-light">
+                            <h5 class="fw-bold mb-1 text-truncate" title="{{ movie.title }}">{{ movie.title }}</h5>
+                        </a>
+                        <small class="text-danger fw-medium mb-2 d-block text-truncate">{{ movie.genre }}</small>
+                        <p class="movie-plot-clamp mb-3">{{ movie.plot }}</p>
+
+                        <div class="mt-auto pt-2 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                            <small class="text-secondary">
+                                <i class="bi bi-calendar-event me-1"></i>{{ movie.released }}
+                            </small>
+                            <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-5 detail-glass-card">
+        <i class="bi bi-camera-reels display-4 text-secondary mb-3 d-block"></i>
+        <h4>No matching movies found in your database</h4>
+        <p class="text-secondary">Use the search bar above to fetch any movie live from OMDb!</p>
+    </div>
+{% endif %}
+{% endblock %}
